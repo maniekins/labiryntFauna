@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import classes from './Toolbox.module.scss'
+import { generateNew, doSomething } from '../../../actions/actions'
 
 class Toolbox extends Component {
   constructor (props) {
@@ -8,28 +10,51 @@ class Toolbox extends Component {
     this.yRef = React.createRef()
   }
 
-  generate = () => {
-    console.log('X', this.xRef.current.value)
-    console.log('Y', this.yRef.current.value)
+  generate = evt => {
+    evt.preventDefault();
+    this.props.generateNew(+this.xRef.current.value, +this.yRef.current.value)
   }
 
   render () {
+    const {x, y} = this.props
     return (
-      <div className={classes.Toolbox}>
+      <>
+      <form className={classes.Toolbox} onSubmit={this.generate}>
         <div>
           <span>X:</span>
-          <input ref={this.xRef} defaultValue={0}/>
+          <input ref={this.xRef} defaultValue={x} />
         </div>
         <div>
           <span>Y:</span>
-          <input ref={this.yRef} defaultValue={0}/>
+          <input ref={this.yRef} defaultValue={y} />
         </div>
         <div>
-          <button onClick={this.generate}>GENERATE</button>
+          <input type="submit" value="GENERATE"/>
         </div>
-      </div>
+      </form>
+      <button onClick={() => {
+        this.props.doSomething()
+      }}>Something</button>
+      </>
     )
   }
 }
 
-export default Toolbox
+const mapStateToProps = state => {
+  console.log('state', state)
+  if (state.something) {
+    console.log('Something state:', state.something.str)
+  }
+  if (state.generate) {
+    return {x: state.generate.x, y: state.generate.y}
+  }
+
+  return {}
+}
+
+const mapDispatchToProps = dispatch => ({
+  generateNew: (x, y) => dispatch(generateNew(x, y)),
+  doSomething: () => dispatch(doSomething())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbox)

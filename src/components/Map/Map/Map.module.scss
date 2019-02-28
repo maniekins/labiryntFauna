@@ -1,4 +1,19 @@
 .Map {
   background: gray;
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  .TileRow {
+    display: flex;
+    align-items: center;
+
+    &:nth-child(even) {
+      background: lightseagreen;
+    }
+
+    &:nth-child(odd) {
+      background: lightskyblue;
+    }
+  }
 }

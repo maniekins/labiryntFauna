@@ -1,8 +1,8 @@
 .Toolbox {
-  background: rgb(100, 216, 70);
-
+  background: blue;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 
   div {
     min-width: 250px;

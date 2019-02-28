@@ -1,0 +1,11 @@
+$tile-size: 20px;
+
+.Tile {
+  background: yellowgreen;
+  display: inline-block;
+  height: $tile-size;
+  width: $tile-size;
+  margin: 1px;
+  border: 3px dashed wheat;
+  box-sizing: border-box;
+}
