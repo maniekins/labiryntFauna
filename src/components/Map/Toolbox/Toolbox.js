@@ -41,7 +41,6 @@ class Toolbox extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('state', state)
   if (state.something) {
     console.log('Something state:', state.something.str)
   }
