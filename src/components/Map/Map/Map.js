@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import classes from './Map.module.scss'
-import TileView from './TileView';
+import TileView from './TileView'
+import domtoimage from 'dom-to-image';
 
 class Map extends Component {
   setMapRef = (node) => {
@@ -30,6 +31,18 @@ class Map extends Component {
       case 40:
         console.log('down')
         break
+      case 13:
+        console.log('Enter, take a picture!')
+        domtoimage.toPng(this.mapRef)
+          .then(dataUrl => {
+            var img = new Image();
+            img.src = dataUrl;
+            document.getElementById('image-map-pane').appendChild(img);
+          })
+          .catch(error => {
+            console.error('oops, something went wrong!', error);
+          });
+        break
       default:
         break
     }
@@ -40,7 +53,7 @@ class Map extends Component {
     document.addEventListener('click', this.handleClick)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.mapRef.removeEventListener('keydown', this.handleKeydown)
     document.removeEventListener('click', this.handleClick);
   }
@@ -66,14 +79,18 @@ class Map extends Component {
   render () {
     const { labiryntMap } = this.props
     return (
-      <div className={classes.Map}
-        ref={this.setMapRef}
-        tabIndex={0}>
-        MAP {labiryntMap ? `x:${labiryntMap[0].length} y ${labiryntMap.length}` : null}
-        <div>
-          {labiryntMap ? labiryntMap.map(this.renderRow) : null}
+      <>
+        <div className={classes.Map}
+          ref={this.setMapRef}
+          tabIndex={0}>
+          MAP {labiryntMap ? `x:${labiryntMap[0].length} y ${labiryntMap.length}` : null}
+          <div>
+            {labiryntMap ? labiryntMap.map(this.renderRow) : null}
+          </div>
         </div>
-      </div>
+        <div id='image-map-pane' className={classes.ImageMapPane}>
+        </div>
+      </>
     )
   }
 }

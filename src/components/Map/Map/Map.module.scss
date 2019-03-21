@@ -17,3 +17,16 @@
     }
   }
 }
+
+// TODO: grid properties should be in utils like flex boxes
+.ImageMapPane {
+  display: flex;
+  align-items: center;
+
+  background-color: lightyellow;
+  margin-top: 24px;
+
+  > img {
+    margin: 5px 10px;
+  }
+}
